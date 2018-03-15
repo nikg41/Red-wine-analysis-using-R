@@ -1,0 +1,632 @@
+# Red Wine Alaysis
+========================================================
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+library(ggplot2)
+library(GGally)
+library(dplyr)
+library(gridExtra)
+library(grid)
+```
+
+```{r echo=FALSE, Load_the_Data}
+# Load the Data
+wine <- read.csv('wineQualityReds.csv')
+head(wine)
+```
+
+
+```{r}
+names(wine)
+```
+```{r}
+summary(wine)
+```
+
+In this project i am going to analys the data of red wines quality so that i can know what type of wines comes to the market, And know about the content and what are precaoutions needed to make the red wine good.
+
+# Univariate Plots Section
+
+```{r,warning = FALSE}
+#quality
+
+ggplot(aes(x = quality),data = wine) + 
+  ggtitle('Histogram of quality') + 
+  ylab('count') + 
+  xlab('Quality') + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red')
+# summary
+summary(wine$quality)
+```
+
+The quality of wine as minimum value of 3 and max value of 5 and it's mean is around 5.636
+
+```{r,warning = FALSE}
+#alcohol 
+
+ggplot(aes(x = alcohol),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Alcohol (in %)') + 
+  xlab('Alcohol in %') + 
+  ylab('Count') + 
+  scale_x_continuous(breaks = seq(8,13,0.5))
+#summary
+summary(wine$alcohol)
+```
+
+The minimum amout of alcoho; present is 8.4% and maximum amout is presenet is 14.9%, The average amount of alcohol is present 10.42%.
+
+```{r,warning = FALSE}
+#sugar
+
+ggplot(aes(x = residual.sugar),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Sugar (gm/dm^3 )') + 
+  xlab('Sugar in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+#summary
+summary(wine$residual.sugar)
+
+```
+
+The minimum amount of residual sugar present is 0.9 dm/dm^3 but there are some outliers so due to that the maximum value is 15.5gm/dm^3.
+
+```{r,warning = FALSE}
+#fixed acidity
+
+ggplot(aes(x = fixed.acidity),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Fixed Acidity') + 
+  xlab('Fixed Acidity in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+#summary
+summary(wine$fixed.acidity)
+
+
+```
+
+The minimum amount of fixed acidity in every bottle of wine is 4.6gm/dm^3 And the maximum amount is 15.90gm/dm^3.
+
+```{r,warning = FALSE}
+# volatile acidity
+
+ggplot(aes(x = volatile.acidity),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of volatile acidity') + 
+  xlab('Volatile acidity in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+#summary
+summary(wine$volatile.acidity)
+
+```
+
+The minimum amount of volatile acidity in every bottle is around 0.12gm/dm^3 But due to some outliers th value has reached to 1.58gm/dm^3 but it should be around 1.0
+
+```{r,warning = FALSE}
+#citric acid
+
+ggplot(aes(x = citric.acid),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Citric Acid') + 
+  xlab('Citric Acid in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+# summary
+summary(wine$citric.acid)
+```
+
+The minimum amount of citric acid present in wine is 0 and max value is 1 but this is due to some outliers.
+
+```{r,warning = FALSE}
+#pH
+
+ggplot(aes(x = pH),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of ph In Red Wine') + 
+  xlab('pH') + 
+  ylab('Count') + 
+  scale_x_continuous()
+# summary
+summary(wine$pH)
+```
+Minimum pH of red wine is 2.740 and the max value is 4.010
+```{r,warning = FALSE}
+#Sulphates
+
+ggplot(aes(x = sulphates),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of sulphates') + 
+  xlab('Sulphates in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+# summary
+summary(wine$sulphates)
+```
+
+The min value is 0.33 and max value is 2 because of outliers in data.
+
+```{r,warning = FALSE}
+#Density
+
+ggplot(aes(x = density),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Density') + 
+  xlab('Density in gm/cm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+# summary
+
+summary(wine$density)
+```
+
+The density is around 1 only.
+
+```{r,warning = FALSE}
+# Free sulfur dioxide
+
+ggplot(aes(x = free.sulfur.dioxide),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Free Sulphur Dioxide') + 
+  xlab('Free Sulphur Dioxide in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+# summary
+summary(wine$free.sulfur.dioxide)
+```
+
+The minimum amount of free sulfur dioxide present is 1 and max is 72.00 butb the 3rd quadrant value is 21.00 and the mean value is 
+15.87
+
+```{r,warning = FALSE}
+#total sulphur dioxide
+
+ggplot(aes(x = wine$total.sulfur.dioxide),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Total Sulphur Dioxide') + 
+  xlab('Total Sulphur Dioxide in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+# summary
+summary(wine$total.sulfur.dioxide)
+
+```
+
+The average amount of total sulfur sioxide present is 46.47
+
+```{r,warning = FALSE}
+#chlorides
+
+ggplot(aes(x = chlorides),data = wine) + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red') + 
+  ggtitle('Histogram of Chlorides') + 
+  xlab('Chlorides in gm/dm^3') + 
+  ylab('Count') + 
+  scale_x_continuous()
+# summary
+summary(wine$chlorides)
+
+```
+
+The chlorides mean amount prsesnt is around 0.08747
+
+# Univariate Analysis
+> In this we want to know that what factors effect on the type of Red wine.When i plotted the graphs of all the properties associated with the wine i cam eto know that it majorly depend on the quality of wine, alcohol Percentage present in it and also amount of sugar is present but the main role is of the quality to determine which wine is good or better. Nearly all the graphs were normally distributed but the graph of Total Sulfur Dioxide,Free Sulfur Dioxide both are right skewed.So let's see further what are effects of other properties on quality and alchol.But i will use some properties not all
+
+### What is the structure of your dataset?
+In this there are 13 Variables with 1599 observations.
+
+### What is/are the main feature(s) of interest in your dataset?
+In this data set the main feature is the quality. As It will help to tell us to buy the good quality wine.
+
+### What other features in the dataset do you think will help support your \investigation into your feature(s) of interest?
+In this alcohol in %,pH,sugar,acid present in it will help me out.
+
+### Did you create any new variables from existing variables in the dataset?
+No, I haven't create any new variable in the dataset
+
+### Did you perform any operations on the data to tidy, adjust, or change the form of the data?
+No, Ihaven't made nay changes in the data.
+
+# Bivariate Plots Section
+
+>In This section I just want to know what other properties have effect on other properties and here i will use correlation coefficient to see their relationship.So in this section i am taking the that comn=binations who's correlation coefficient is greater than 0.2.
+
+```{r,warning = FALSE}
+ggcorr(wine)
+```
+
+```{r,warning = FALSE}
+#Quality vs alcohol
+
+ggplot(aes(x = quality,y=alcohol),data = wine) + 
+  geom_jitter(alpha = 0.5) + 
+  stat_summary(fun.y = 'mean',color = 'red') + 
+  ggtitle('Variation of quality with alcohol in %') + 
+  xlab('Quality') + 
+  ylab('Alcohol(in %)') + 
+  geom_smooth(method = 'loess')
+```
+
+In this Graph they both have +ve correlation and so the alcohol % increases with the quality of wine increases.
+
+```{r,warning = FALSE}
+#quality with volatile acidity(-ve)
+ggplot(aes(x = quality,y=volatile.acidity),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of quality with volatile acidity') + 
+  xlab('Quality') + 
+  ylab('volatile acidity in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+It is confirm there correlation is -ve as The wine quality is increasing so the volatile acidity is decreasing in wine.
+
+```{r,warning = FALSE}
+#alcohol with volatile acidity(-ve)
+ggplot(aes(x = alcohol,y=volatile.acidity),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of alcohol with volatile acidity') + 
+  xlab('Alcohol(in %)') + 
+  ylab('volatile acidity in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+In this Graph,Volatile aciidty is nearly constant as the alcohol % increases.
+
+```{r,warning = FALSE}
+#Quality with citric acid
+ggplot(aes(x = quality,y=citric.acid),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of quality with citric acid') + 
+  xlab('Quality') + 
+  ylab('citric acid in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+In this Graph, Ciric acid quantity increases as the quality of wine increases.
+
+```{r,warning = FALSE}
+#Quality with sulphates
+ggplot(aes(x = quality,y=sulphates),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of alcohol with sulphates') + 
+  xlab('Quality') + 
+  ylab('Sulphates in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+
+
+```
+
+In this graph, Quantity of Sulphates Linearly increases with the Quality of wine increases.
+
+```{r,warning = FALSE}
+#Quality with density
+ggplot(aes(x = quality,y=density),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of quality with density') + 
+  xlab('quality') + 
+  ylab('Density in gm/cm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+Over here, Density decreases with the Uality marginally decreases.
+
+```{r,warning = FALSE}
+#alcohol with density
+ggplot(aes(x = alcohol,y=density),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of alcohol with density') + 
+  xlab('Alcohol(in %)') + 
+  ylab('density in gm/cm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+As the alcohol % increases the density of wine keeps on Decreasing.
+
+```{r,warning = FALSE}
+#sugar with density
+
+ggplot(aes(x = residual.sugar,y = density),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of sugar with density') + 
+  xlab('sugar in gm/dm^3') + 
+  ylab('density in gm/cm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+So, over here as quantity of sugar is increasing in wine the density of wine is also increasing.
+
+```{r,warning = FALSE}
+#Quality with pH
+
+ggplot(aes(x = quality,y = pH),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of quality with pH') + 
+  xlab('Quality') + 
+  ylab('pH') + 
+  geom_smooth(method = 'loess')
+
+```
+
+In this Graph, Almost the pH is remained constant.
+
+```{r,warning = FALSE}
+#Alcohol with pH
+
+ggplot(aes(x = alcohol,y = pH),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of alcohol with pH') + 
+  xlab('Alcohol in %') + 
+  ylab('pH') + 
+  geom_smooth(method = 'loess')
+```
+
+With the increase of Alcohol % The pH value also inreases of wine.
+
+```{r,warning = FALSE}
+#Quality with chlorides
+
+ggplot(aes(x = quality,y = chlorides),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of quality with chlorides') + 
+  xlab('Quality') + 
+  ylab('Chlorides in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+As the quality value changes the chlorides quantity is mostly constant.
+
+```{r,warning = FALSE}
+#Alcohol with chlorides
+
+ggplot(aes(x = alcohol,y = chlorides),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of alcohol with chlorides') + 
+  xlab('Alcohol(in %)') + 
+  ylab('Chlorides in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+
+```
+
+The chlorides quantity has decreased a little bit But after that bit remained constant.
+
+```{r,warning = FALSE}
+#citric acide with fixed acidity
+
+ggplot(aes(x = citric.acid,y = fixed.acidity),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of Citric Acidity with Fixed Acidity') + 
+  xlab('Citric Acidity in gm/dm^3') + 
+  ylab('Fixed Acidity in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+```
+
+As the quantity of citric acid has increased, Fixed acidity of wine has also Increased
+
+```{r,warning = FALSE}
+#volatile acide with fixed acidity
+
+ggplot(aes(x = volatile.acidity,y = fixed.acidity),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of Volatile Acidity with Fixed Acidity') + 
+  xlab('Volatile Acidity in gm/dm^3') + 
+  ylab('Fixed Acidity in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+```
+
+In this grapph as the volatile acidity increase the fixed acidity decreased first and then remained constant
+
+```{r,warning = FALSE}
+# citric acidity with volatile acidity
+
+ggplot(aes(x = citric.acid,y = volatile.acidity),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of Citric Acidity with Volatile Acidity') + 
+  xlab('Citric Acidity in gm/dm^3') + 
+  ylab('Volatile Acidity in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+```
+
+Over here as the amount of citric acide is inreasing , the volatile acidity firstly decreased and there is increase in it.
+
+```{r,warning = FALSE}
+# sulphates with volatile acidity
+
+ggplot(aes(x = sulphates,y = volatile.acidity),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  ggtitle('Variation of sulphates with Volatile Acidity') + 
+  xlab('Sulphates in gm/dm^3') + 
+  ylab('Volatile Acidity in gm/dm^3') + 
+  geom_smooth(method = 'loess')
+```
+
+As the amount of sulphates is increasing the volatile acidity has decreased.
+
+```{r,warning = FALSE}
+tit = textGrob("The Effect of Different Acidities On the Alcohol Precentage")
+p1 <- ggplot(aes(x = volatile.acidity,y = alcohol),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  geom_smooth(method = 'lm')
+p2 <- ggplot(aes(x = fixed.acidity,y = alcohol),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  geom_smooth(method = 'lm')
+p3 <- ggplot(aes(x = citric.acid,y = alcohol),data = wine) + 
+  geom_jitter(alpha = 0.3) + 
+  geom_smooth(method = 'lm')
+grid.arrange(p1,p2,p3,ncol = 1,top = tit)
+```
+
+# Bivariate Analysis
+
+In the First Graph of this analysis is between the quality and alcohol in % So, this graph shows that the alcohol % in wine increases as the quality of wine increases, So, this states that the good quality wines have the higher value of alcohol % in them then the low quality fines But there is point in graph that is for quality 4 alcohol % is higher than the quality 5 wines. But there are also other factors which effect the quality of wines. When I see the graph of quality vs pH, After that I came to Know that the wines has almost same pH value there is no much difference in them. But in very next graph of alcohol and pH, So the pH value has increased with the amount of alcohol % has increased in red wine.
+The most amzing thing I found is that the amount of citric acid is increased the value of fixed acidity also inreased linearly with it.When I compaired all the acidities with the alcohol then I found that as the amount of all the acidities has increased the alcohol amount has decreased with the volatile acidity and it increased with the amount of citric acid but remained same with the fixed acidity.
+As the amount of citric acid has increased in red wine then the quality of it has increased that this means that the good quality wines have a higher quanity of citric acid present in them.
+
+### Talk about some of the relationships you observed in this part of the \investigation. How did the feature(s) of interest vary with other features in \the dataset?
+In this main point is quality, So, very first graph has given that the alcohol% increases with the quality of the red wine has increased it. And the good quality Red Wines have nice amount of citric acid present in them as it is added to add freshness in red wines.
+
+### Did you observe any interesting relationships between the other features \(not the main feature(s) of interest)?
+The other interesting relations, Volatile acidity i.e. acetic acidity amount has decreased with the increase in the amount of citric acid in the red wine and the vloatile acidity has no major effect on the fixed acidity of red wines.
+
+### What was the strongest relationship you found?
+Quality and alcohol
+
+# Multivariate Plots Section
+
+
+```{r,warning = FALSE}
+# Effect of citric acid on quality and alcohol
+
+ggplot(aes(x = citric.acid,y = alcohol,color = quality),data = wine) + 
+  geom_point() + 
+  scale_y_continuous(breaks = seq(8,13,0.5)) + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Citric acid gm/dm^3') + 
+  ylab('Alcohol in %') + 
+  ggtitle('Effects of citric acid amount on quality and alcohol amount')
+```
+
+In this the higher quality wines has the either higher amount of alcohol or higher amount of citric acid present in it.
+
+```{r,warning = FALSE}
+#effect of density on quality and alcohol
+
+ggplot(aes(x = density,y = alcohol,color = quality),data = wine) + 
+  geom_point() + 
+  scale_y_continuous(breaks = seq(8,13,0.5)) + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Density in gm/cm^3') + 
+  ylab('Alcohol in %') + 
+  ggtitle('Effects of density amount on quality and alcohol amount')
+```
+
+Density have same effect like citric acid present in it.
+
+```{r,warning = FALSE}
+#density with alcohol and sugar
+
+ggplot(aes(x = residual.sugar,y = alcohol,color = density),data = wine) + 
+  geom_point() + 
+  scale_y_continuous(breaks = seq(8,13,0.5)) + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Sugar gm/dm^3') + 
+  ylab('Alcohol in %') + 
+  ggtitle('Effects of density on sugar and alcohol amount')
+```
+
+Higher the density which means that it has the high amount of sugar and low amount of alcohol present in red wine.
+
+```{r,warning = FALSE}
+#Effect of sulpahtes amount on alcohol and quality
+
+ggplot(aes(x = sulphates,y = alcohol,color = quality),data = wine) + 
+  geom_point() + 
+  scale_y_continuous(breaks = seq(8,13,0.5)) + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Sulphates gm/dm^3') + 
+  ylab('Alcohol in %') + 
+  ggtitle('Effects of sulphates amount on quality and alcohol amount')
+```
+
+All the qualities of wine has lower amount of sulphates present in them whatever the amount of alcohol is present in it.
+
+```{r,warning = FALSE}
+#fixed acidity and volatile acidity and pH
+
+ggplot(aes(x = volatile.acidity,y = fixed.acidity,color = pH),data = wine) + 
+  geom_point() + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Volatile Acidity gm/dm^3') + 
+  ylab('Fixed Acidity gm/dm^3') + 
+  ggtitle('Volatile acidity vs Fixed aciidty and effect of pH on them')
+```
+
+In this graph, Red wines with higher amount of fixed acidity and lower amount of volatile acidity has low pH value which means they are more acidic.
+
+```{r,warning = FALSE}
+# effect of volatile acidity and alcohol on quality of red wine
+
+ggplot(aes(x = volatile.acidity,y = alcohol,color = quality),data = wine) + 
+  geom_point() + 
+  scale_y_continuous(breaks = seq(8,13,0.5)) + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Volatile Acidity gm/dm^3') + 
+  ylab('Alcohol in %') + 
+  ggtitle('Effect of volatile acidity and alcohol on quality of red wine')
+
+```
+
+The graph tells that hiher quality red wine has high alcohol amount and low sulphate amount present in it.
+
+# Multivariate Analysis
+We have seen about the Quality And alcohol but I want to look more factors which could effect them and so, with the multivariant analysis found that the good qualit red wines have higher amount of citric acid or Alcohol present in them.
+The efect of pH is less on the alcohol and quality of red wines, But the effect of density is higher on the alcohol as it decreases the density but the amount of sugar present in it increases the density even if there is higher amount of alcohol present inn it.
+Wines with the lower amount of fixed acidity has the higher value for pH which means they are less acidic but with the lower amount of volatile acidity and higher amount of fixed acidity they have lower pH value as a result red wines are more acidic.
+### Talk about some of the relationships you observed in this part of the \investigation. Were there features that strengthened each other in terms of \looking at your feature(s) of interest?
+
+### Were there any interesting or surprising interactions between features?
+
+
+# Final Plots and Summary
+
+
+### Plot One
+```{r,warning = FALSE}
+# quality
+
+ggplot(aes(x = quality),data = wine) + 
+  ggtitle('Histogram of quality') + 
+  ylab('count') + 
+  xlab('Quality') + 
+  geom_histogram(stat = 'count',color = 'black', fill = 'red')
+```
+
+### Description One
+This graph is selected as it is main feature i have thought with which majorly other factors depend upon.
+
+### Plot Two
+```{r,warning = FALSE}
+# effect of volatile acidity and alcohol on quality of red wine
+
+ggplot(aes(x = volatile.acidity,y = alcohol,color = quality),data = wine) + 
+  geom_point() + 
+  scale_y_continuous(breaks = seq(8,13,0.5)) + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Volatile Acidity gm/dm^3') + 
+  ylab('Alcohol in %') + 
+  ggtitle('Effect of volatile acidity and alcohol on quality of red wine')
+
+```
+
+### Description Two
+They are main things that effect the quality of red wines, Which means that the higher quality wines has higher amount of alcohol present in them and the low amount of acetic acid present in it.
+
+### Plot Three
+```{r,warning = FALSE}
+#Effect of sulpahtes amount on alcohol and quality
+
+ggplot(aes(x = sulphates,y = alcohol,color = quality),data = wine) + 
+  geom_point() + 
+  scale_y_continuous(breaks = seq(8,13,0.5)) + 
+  scale_color_distiller(type = 'div') + 
+  xlab('Sulphates gm/dm^3') + 
+  ylab('Alcohol in %') + 
+  ggtitle('Effect of volatile acidity and alcohol on quality of red wine')
+```
+
+### Description Three
+
+I have selected this graph becouse I think that the higher qualty wines have lower quantity of sulphates in them  and higher quantity of alcohol is present in them.
+
+# Reflection
+I have selected this dataset because I want to know that what things effect the quality of red wines. Before this analysis i didn't anything about the red wines, now, I now what factors are needed to make the good quality of wines so that it is good in taste and doesn't cause any health problem to the body and eevryone should like it. 
